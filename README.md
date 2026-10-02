@@ -36,34 +36,3 @@ Create a virtual environment and install the dependencies:
 py -m venv .venv
 .\.venv\Scripts\Activate.ps1
 python -m pip install -r requirements.txt
-```
-
-Download the M5 files from the [Kaggle competition data page](https://www.kaggle.com/competitions/m5-forecasting-accuracy/data) and put these files in `data/raw/`:
-
-- `calendar.csv`
-- `sell_prices.csv`
-- `sales_train_evaluation.csv` or `sales_train_validation.csv`
-
-Raw data is excluded from Git. From the repository root, run the pipeline:
-
-```powershell
-python -m retail_forecast.pipeline --data-dir data/raw --output-dir artifacts
-```
-
-Start the dashboard with:
-
-```powershell
-streamlit run retail_forecast/app.py
-```
-
-The dashboard displays the forecast comparison and accepts a CSV upload for a quick forecast check. The upload workflow uses one recent holdout; it is separate from the three-fold M5 experiment.
-
-## Tests
-
-```powershell
-python -m unittest discover -s tests -v
-```
-
-## Limitations
-
-M5 records sales, not unconstrained demand, inventory, or stockouts. These results describe one fixed sample and one 28-day evaluation period; they do not estimate business savings or establish performance at another retailer. The prediction intervals are empirical estimates based on development-fold errors, not guaranteed bounds. The upload workflow is a demo with a single quick holdout, not a multi-fold benchmark.
